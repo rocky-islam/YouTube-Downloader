@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate YT Downloader Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <main class="container glass-panel">
+        <header>
+            <h1>YT Ultimate <span>Dashboard</span></h1>
+            <p>Download, Trim, Subtitles & Playlists in one place</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-target="single">Single Video</button>
+            <button class="tab-btn" data-target="playlist">Playlist</button>
+        </div>
+
+        <section class="input-section">
+            <input type="text" id="urlInput" placeholder="Paste YouTube URL here..." autocomplete="off">
+            <button id="fetchBtn" class="btn primary">Fetch Data</button>
+        </section>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Scanning YouTube for data...</p>
+        </div>
+
+        <!-- Single Video View -->
+        <section id="singleVideoView" class="hidden glass-panel inner fade-in">
+            <div class="video-header">
+                <img id="videoThumb" src="" alt="Thumbnail">
+                <h2 id="videoTitle">Video Title</h2>
+            </div>
+            
+            <div class="feature-bar">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="audioOnlyToggle">
+                    <span class="slider"></span>
+                    <span class="label-text">Audio Only (MP3/M4A)</span>
+                </label>
+            </div>
+
+            <div class="quick-presets" id="quickPresets">
+                <p>Quick Quality:</p>
+                <button class="btn small" data-quality="best">Best (1080p/4K)</button>
+                <button class="btn small" data-quality="balanced">Balanced (720p)</button>
+                <button class="btn small" data-quality="data-saver">Data Saver (480p)</button>
+            </div>
+
+            <div class="controls-grid">
+                <div class="control-group" id="videoSelectGroup">
+                    <label>Video Quality</label>
+                    <select id="videoSelect"></select>
+                </div>
+                <div class="control-group">
+                    <label>Audio Language</label>
+                    <select id="audioSelect"></select>
+                </div>
+                <div class="control-group" id="subtitleGroup">
+                    <label>Embed Subtitles (Optional)</label>
+                    <select id="subtitleSelect">
+                        <option value="">None</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="trim-section">
+                <p>Trim Video (Optional)</p>
+                <div class="trim-inputs">
+                    <input type="text" id="trimStart" placeholder="Start (HH:MM:SS)" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}">
+                    <span>to</span>
+                    <input type="text" id="trimEnd" placeholder="End (HH:MM:SS)" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}">
+                </div>
+            </div>
+
+            <button id="downloadBtn" class="btn primary full-width">Add to Download Queue</button>
+        </section>
+
+        <!-- Playlist View -->
+        <section id="playlistView" class="hidden glass-panel inner fade-in">
+            <h2 id="playlistTitle">Playlist Details</h2>
+            <div class="playlist-controls">
+                <button id="selectAllBtn" class="btn small">Select All</button>
+                <button id="deselectAllBtn" class="btn small">Deselect All</button>
+            </div>
+            <div class="playlist-list" id="playlistList">
+                <!-- Items populated via JS -->
+            </div>
+            <button id="downloadPlaylistBtn" class="btn primary full-width">Download Selected Videos</button>
+        </section>
+
+        <!-- Download Manager -->
+        <section id="downloadManager" class="glass-panel inner hidden fade-in">
+            <h3>Active Downloads</h3>
+            <div id="activeJobs">
+                <!-- Job Cards -->
+            </div>
+        </section>
+        
+        <div id="errorBox" class="hidden"></div>
+    </main>
+
+    <!-- Load Socket.io client -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
