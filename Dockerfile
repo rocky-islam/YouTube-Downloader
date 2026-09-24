@@ -1,4 +1,4 @@
-FROM node:18-bullseye-slim
+FROM node:20-bookworm-slim
 
 # Install FFmpeg and Python3 (required for yt-dlp to work properly)
 RUN apt-get update && \
