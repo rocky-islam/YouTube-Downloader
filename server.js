@@ -58,10 +58,16 @@ app.post('/api/info', async (req, res) => {
     if (!url) return res.status(400).json({ error: 'URL is required' });
 
     try {
-        const info = await youtubedl(url, {
+        const options = {
             dumpJson: true,
             noWarnings: true
-        });
+        };
+        const cookiesPath = path.join(__dirname, 'cookies.txt');
+        if (fs.existsSync(cookiesPath)) {
+            options.cookies = cookiesPath;
+        }
+
+        const info = await youtubedl(url, options);
 
         const videoTracks = [];
         const audioTracks = [];
@@ -119,11 +125,17 @@ app.post('/api/playlist-info', async (req, res) => {
     if (!url) return res.status(400).json({ error: 'URL is required' });
 
     try {
-        const info = await youtubedl(url, {
+        const options = {
             dumpJson: true,
             flatPlaylist: true,
             noWarnings: true
-        });
+        };
+        const cookiesPath = path.join(__dirname, 'cookies.txt');
+        if (fs.existsSync(cookiesPath)) {
+            options.cookies = cookiesPath;
+        }
+
+        const info = await youtubedl(url, options);
 
         if (!info.entries) {
             return res.status(400).json({ error: 'Not a playlist' });
@@ -168,6 +180,11 @@ app.post('/api/download', async (req, res) => {
         output: outputPath + '.%(ext)s', // Let yt-dlp determine extension during processing
         noWarnings: true
     };
+    
+    const cookiesPath = path.join(__dirname, 'cookies.txt');
+    if (fs.existsSync(cookiesPath)) {
+        flags.cookies = cookiesPath;
+    }
 
     if (audioOnly) {
         flags.format = audioId || 'bestaudio';
