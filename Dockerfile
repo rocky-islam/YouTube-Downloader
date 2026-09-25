@@ -12,11 +12,12 @@ WORKDIR /app
 # Copy package files first to leverage Docker cache
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies (ignoring scripts to bypass fragile auto-downloads)
+RUN npm install --ignore-scripts
 
 # Force update yt-dlp to the absolute latest version directly from GitHub
-RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o node_modules/youtube-dl-exec/bin/yt-dlp && \
+RUN mkdir -p node_modules/youtube-dl-exec/bin && \
+    curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o node_modules/youtube-dl-exec/bin/yt-dlp && \
     chmod +x node_modules/youtube-dl-exec/bin/yt-dlp
 
 # Copy the rest of the application files
