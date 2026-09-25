@@ -60,7 +60,9 @@ app.post('/api/info', async (req, res) => {
     try {
         const options = {
             dumpJson: true,
-            noWarnings: true
+            noWarnings: true,
+            geoBypass: true,
+            extractorArgs: 'youtube:player_client=android,web'
         };
         const cookiesPath = path.join(__dirname, 'cookies.txt');
         if (fs.existsSync(cookiesPath)) {
@@ -128,7 +130,9 @@ app.post('/api/playlist-info', async (req, res) => {
         const options = {
             dumpJson: true,
             flatPlaylist: true,
-            noWarnings: true
+            noWarnings: true,
+            geoBypass: true,
+            extractorArgs: 'youtube:player_client=android,web'
         };
         const cookiesPath = path.join(__dirname, 'cookies.txt');
         if (fs.existsSync(cookiesPath)) {
@@ -178,7 +182,9 @@ app.post('/api/download', async (req, res) => {
     // Build arguments
     const flags = {
         output: outputPath + '.%(ext)s', // Let yt-dlp determine extension during processing
-        noWarnings: true
+        noWarnings: true,
+        geoBypass: true,
+        extractorArgs: 'youtube:player_client=android,web'
     };
     
     const cookiesPath = path.join(__dirname, 'cookies.txt');
